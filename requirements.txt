@@ -1,0 +1,5 @@
+streamlit
+pymysql
+python-dotenv
+pandas
+streamlit-autorefresh
