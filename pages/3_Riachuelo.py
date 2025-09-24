@@ -2,7 +2,6 @@ import streamlit as st
 import requests
 from bs4 import BeautifulSoup
 import re
-import pandas as pd
 
 st.set_page_config(
     page_title="Riachuelo", 
@@ -12,7 +11,7 @@ st.set_page_config(
 )
 
 st.title("🛒 Loja Riachuelo")
-st.write("Veja abaixo os produtos monitorados:")
+st.write("Veja abaixo os produtos miaumocita:")
 
 urls = [
     "https://www.riachuelo.com.br/jogo-de-cama-bordado-rosaria-floral-branco-casa-riachuelo-15660672001_sku_sku_casal_branco?sku=15770427001",
@@ -40,18 +39,35 @@ for url in urls:
 
             produtos.append({
                 "Produto": titulo,
-                "Original": f"R$ {list_price:.2f}",
-                "Promoção": f"R$ {sale_price:.2f}",
-                "Está em Promoção?": "✅" if promocao else "❌"
+                "Original": list_price,
+                "Promoção": sale_price,
+                "Promo?": promocao
             })
     except Exception as e:
         produtos.append({
             "Produto": f"Erro ao acessar: {url}",
-            "Original": "-",
-            "Promoção": "-",
-            "Está em Promoção?": "❌"
+            "Original": None,
+            "Promoção": None,
+            "Promo?": False
         })
 
-df = pd.DataFrame(produtos)
+# Exibir em cards (mais amigável no celular)
 st.markdown("### 🧾 Produtos Monitorados")
-st.table(df)
+
+for p in produtos:
+    with st.container():
+        st.markdown(f"### {p['Produto']}")
+
+        if p["Original"] and p["Promoção"]:
+            st.markdown(
+                f"""
+                |💰 Valor Normal:| R$ {p['Original']:.2f}  
+                |🔖 Valor Promocional:| R$ {p['Promoção']:.2f}  
+                |📉 Está em promoção?| {"✅ Sim" if p['Promo?'] else "❌ Não"}
+                """,
+                unsafe_allow_html=True
+            )
+        else:
+            st.error("Não foi possível obter os preços.")
+
+    st.divider()

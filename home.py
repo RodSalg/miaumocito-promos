@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="Dashboard Lojas", page_icon="🛍️", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Dashboard Lojas", page_icon="🛍️", layout="wide", initial_sidebar_state="collapsed", )
 
 st.title("🏠 Home")
 st.write("Bem-vindo ao painel de lojas!")
