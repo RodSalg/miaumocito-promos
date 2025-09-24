@@ -3,4 +3,4 @@ pymysql
 python-dotenv
 pandas
 streamlit-autorefresh
-BeautifulSoup
+beautifulsoup4
